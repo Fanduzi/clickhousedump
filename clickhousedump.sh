@@ -153,8 +153,7 @@ if [[ "${ask_password}x" == "truex" ]]; then
     echo
 fi
 
-_prefix="select concat(database,'.',name) table from system.tables where "
-
+_prefix="select concat('\`', database, '\`', '.', '\`', name, '\`') table from system.tables where "
 
 
 if [[ "${all}x" == "truex" ]]; then
