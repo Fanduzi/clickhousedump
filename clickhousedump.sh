@@ -273,11 +273,12 @@ failed_table=''
 for i in $res
 do
     _table=`echo $i |cut -d: -f 1`
+    _table_output_name=`echo ${_table}|sed s/'\`'//g`
     f_logging "INFO" "开始备份 ${_table}" |tee -a ${log}
     if [[ "${compress}x" != "truex" ]]; then
-        clickhouse-client -u ${user} --password ${password} --port ${port} -h ${host} --query="select * from ${_table}" --format=${format} > ${output_dir}/${_table}.${format}
+        clickhouse-client -u ${user} --password ${password} --port ${port} -h ${host} --query="select * from ${_table}" --format=${format} > ${output_dir}/${_table_output_name}.${format}
     else
-        clickhouse-client -u ${user} --password ${password} --port ${port} -h ${host} --query="select * from ${_table}" --format=${format} | gzip > ${output_dir}/${_table}.${format}.gz
+        clickhouse-client -u ${user} --password ${password} --port ${port} -h ${host} --query="select * from ${_table}" --format=${format} | gzip > ${output_dir}/${_table_output_name}.${format}.gz
     fi
     if [ $? -ne 0 ]
     then
